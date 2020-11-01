@@ -1,39 +1,16 @@
 <template>
   <img alt="Vue logo" src="./assets/customer-contacts.jpg" />
-  <ViewContacts :customer-contacts="customerContacts" />
+  <div id="nav" class="nav is-size-4">
+    <router-link to="/">View Contacts</router-link> |
+    <router-link to="/edit-contacts">Add Contacts</router-link>
+  </div>
+  <hr />
+  <router-view />
 </template>
 
 <script>
-import firebase from "firebase/app";
-import "firebase/firestore";
-import ViewContacts from "./components/ViewContacts.vue";
-
 export default {
   name: "App",
-  components: {
-    ViewContacts,
-  },
-  data() {
-    return {
-      customerContacts: [],
-    };
-  },
-  mounted() {
-    // Get a Firestore instance
-    const db = firebase
-      .initializeApp({ projectId: "customer-contact-vue" })
-      .firestore();
-    db.collection("users")
-      .get()
-      .then((snap) => {
-        const contacts = [];
-        snap.forEach((doc) => {
-          contacts.push(doc.data());
-        });
-        console.log(contacts);
-        this.customerContacts = contacts;
-      });
-  },
 };
 </script>
 
@@ -44,6 +21,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 60px;
 }
 </style>
