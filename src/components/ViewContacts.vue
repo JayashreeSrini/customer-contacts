@@ -24,12 +24,15 @@
         <div class="contact-data">{{ item.PostCd }}</div>
       </div>
       <div class="contact-item button-wrapper">
-        <button class="button is-success">
+        <button class="button is-success" @click.prevent="setContactItem(item)">
           <span>Edit</span>
         </button>
       </div>
       <div class="contact-item button-wrapper">
-        <button class="button is-danger is-outlined">
+        <button
+          class="button is-danger is-outlined"
+          @click.prevent="deleteContact(item)"
+        >
           <span>Delete</span>
         </button>
       </div>
@@ -43,11 +46,40 @@ import "firebase/firestore";
 
 export default {
   name: "ViewContacts",
-
   data() {
     return {
       customerContacts: [],
     };
+  },
+  methods: {
+    setContactItem(item) {
+      console.log(item);
+      this.$router.push("/edit-contacts");
+    },
+    deleteContact(item) {
+      firebase
+        .app()
+        .firestore()
+        .collection("users")
+        .doc(item.id)
+        .delete()
+        .then((docRef) => {
+          console.log("deleted successfull", docRef);
+          firebase
+            .app()
+            .firestore()
+            .collection("users")
+            .get()
+            .then((snap) => {
+              const contacts = [];
+              snap.forEach((doc) => {
+                contacts.push({ id: doc.id, ...doc.data() });
+              });
+              console.log(contacts);
+              this.customerContacts = contacts;
+            });
+        });
+    },
   },
   mounted() {
     // Get a Firestore instance

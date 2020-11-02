@@ -62,7 +62,7 @@
       </div>
       <hr />
       <div class="buttons">
-        <button type="submit" class="button is-primary">Primary</button>
+        <button type="submit" class="button is-primary">Add contact</button>
       </div>
     </form>
   </div>
@@ -71,6 +71,7 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/firestore";
+
 export default {
   name: "EditContacts",
   data() {

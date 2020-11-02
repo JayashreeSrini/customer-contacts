@@ -2,15 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 require('./assets/main.scss');
 import router from './router';
-import { createStore } from 'vuex'
+import { StoreSymbol, createState } from './composables/use-store';
 
 
-const store = createStore({
-    state() {
-        return {
-            count: 1
-        }
-    }
-})
-
-createApp(App).use(router).use(store).mount('#app')
+createApp(App).use(router).provide(StoreSymbol, createState()).mount('#app')
